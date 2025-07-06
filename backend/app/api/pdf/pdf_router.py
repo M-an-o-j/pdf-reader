@@ -6,6 +6,10 @@ pdf_router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@pdf_router.get("/")
-async def root():
-    return {"message": "Hello World"}
+@pdf_router.post("/upload")
+async def upload_pdf_router(file: UploadFile = File(...)):
+    return await upload_pdf_controller(file)
+
+@pdf_router.get("/pdf/{file_id}/text")
+async def get_page_text(file_id: str, page: int = 1):
+    return await get_page_text_controller(file_id, page)
